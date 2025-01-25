@@ -463,22 +463,3 @@ HashSet扩容和树化机制：
 5. int frequency(Collection, Object)：返回指定集合中指定元素的出现次数
 6. void copy(List dest, List src)：将src中的内容复制到dest中
 7. boolean replaceAll(List list, Object oldval, Object newVal)：使用新值替换List对象的所有旧值
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
