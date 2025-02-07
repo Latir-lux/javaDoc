@@ -559,7 +559,7 @@ Class.forName("com.mysql.cj.jdbc.Driver");
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1702447277996-c1526d49-f502-4925-8042-0d4edff0370d.png#averageHue=%23faf7f6&clientId=u7c1aac3c-b9a1-4&from=paste&height=633&id=u1781014f&originHeight=633&originWidth=675&originalType=binary&ratio=1&rotation=0&showTitle=false&size=82510&status=done&style=shadow&taskId=u584847eb-e7ea-45a6-bac9-aa7ad04fe44&title=&width=675)
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1702447333885-23189b4e-5767-4dba-ae21-bdc543241db6.png#averageHue=%23fdfaf9&clientId=u7c1aac3c-b9a1-4&from=paste&height=680&id=uf6d27369&originHeight=680&originWidth=830&originalType=binary&ratio=1&rotation=0&showTitle=false&size=46959&status=done&style=shadow&taskId=u3d931415-f78b-48b4-bd14-348658e6392&title=&width=830)
 
-通过源码不难发现，在`com.mysql.cj.jdbc.Driver`类中有一个静态代码块，在这个静态代码块中调用了`java.sql.DriverManager.registerDriver(new Driver());`完成了驱动的注册。而`Class.forName("com.mysql.cj.jdbc.Driver");`代码的作用就是让`com.mysql.cj.jdbc.Driver`类完成加载，执行它的静态代码块。
+通过源码不难发现，在`com.mysql.cj.jdbc.Driver`类中有一个**静态代码块**，在这个静态代码块中调用了`java.sql.DriverManager.registerDriver(new Driver());`完成了驱动的注册。而`Class.forName("com.mysql.cj.jdbc.Driver");`代码的作用就是让`com.mysql.cj.jdbc.Driver`类**完成加载，执行它的静态代码块**。相当于**用反射机制调用类加载，执行了静态代码块**。
 
 编写代码测试一下：
 ```java
@@ -621,7 +621,7 @@ public class JDBCTest02 {
 
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=acQ6d&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 # JDBC 4.0后不用手动注册驱动（了解）
-从JDBC 4.0（**也就是Java6**）版本开始，驱动的注册不需要再手动完成，由系统自动完成。
+从JDBC 4.0（**也就是Java6**）版本开始，**驱动的注册不需要再手动完成，由系统自动完成**。
 ```java
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -675,7 +675,7 @@ public class JDBCTest03 {
 
 数据库表中数据也添加了一条：
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1702448423567-a2526811-994b-496a-bd61-7ba47dfda8cb.png#averageHue=%23e4c17b&clientId=u7c1aac3c-b9a1-4&from=paste&height=181&id=u42d8e45b&originHeight=181&originWidth=556&originalType=binary&ratio=1&rotation=0&showTitle=false&size=15314&status=done&style=shadow&taskId=ubebfbfc2-ee04-42b2-a495-f1c6ed41091&title=&width=556)
-**注意：虽然大部分情况下不需要进行手动注册驱动了，但在实际的开发中有些数据库驱动程序不支持自动发现功能，仍然需要手动注册。所以建议大家还是别省略了。**
+**注意：虽然大部分情况下不需要进行手动注册驱动了，但在<u>实际的开发中有些数据库驱动程序不支持自动发现功能，仍然需要手动注册。所以建议大家还是别省略了</u>。**
 
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=tO7GD&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 # 动态配置连接数据库的信息

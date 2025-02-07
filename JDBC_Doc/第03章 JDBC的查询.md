@@ -127,7 +127,7 @@ while(rs.next()){
 
 - **rs.next() 将游标移动到下一行，如果移动后指向的这一行有数据则返回true，没有数据则返回false。**
 - **while循环体当中的代码是处理当前游标指向的这一行的数据。（注意：是处理的一行数据）**
-- **rs.getString(int columnIndex) 其中 int columnIndex 是查询结果的列下标，列下标从1开始，以1递增。**
+- **rs.getString(int columnIndex) 其中 int columnIndex 是查询结果的列下标，<u>JDBC中列下标从1开始</u>，以1递增。**
 
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1702538306701-4341b895-f91b-4501-af67-4746b6327884.png#averageHue=%23f5f2f0&clientId=u858f9b9d-17d9-4&from=paste&height=149&id=ud9abd104&originHeight=149&originWidth=530&originalType=binary&ratio=1&rotation=0&showTitle=false&size=12490&status=done&style=none&taskId=u49d40a9c-dcbc-4315-b6f2-d6ff94d7392&title=&width=530)
 
@@ -259,7 +259,7 @@ public class JDBCTest10 {
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1702541223024-4e5acb77-ef8b-4437-ba3d-10c02ba0999b.png#averageHue=%23faf8f8&clientId=u858f9b9d-17d9-4&from=paste&height=137&id=uc04a7f0d&originHeight=137&originWidth=715&originalType=binary&ratio=1&rotation=0&showTitle=false&size=8990&status=done&style=shadow&taskId=u4d697cdc-11e5-45f9-9090-b8dbd5ff938&title=&width=715)
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1702541500905-f5e0a70b-19b0-4469-97db-68e414f92984.png#averageHue=%23dab370&clientId=u858f9b9d-17d9-4&from=paste&height=92&id=u9977c004&originHeight=92&originWidth=489&originalType=binary&ratio=1&rotation=0&showTitle=false&size=5846&status=done&style=shadow&taskId=u5b3fc4aa-5215-4125-8745-c27aadef887&title=&width=489)
 
-id以long类型获取，name以String类型获取，price以double类型获取，create_time以java.sql.Date类型获取，代码如下：
+id以long类型获取，name以String类型获取，price以double类型获取，**create_time以java.sql.Date类型**获取（还有一个date是java.util.date），代码如下：
 ```java
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -428,8 +428,8 @@ public class JDBCTest12 {
 有很多表的主键字段值都是自增的，在某些特殊的业务环境下，当我们插入了新数据后，希望能够获取到这条新数据的主键值，应该如何获取呢？
 在 JDBC 中，如果要获取插入数据后的主键值，可以使用 Statement 接口的 executeUpdate() 方法的重载版本，该方法接受一个额外的参数，用于指定是否需要获取自动生成的主键值。然后，通过以下两个步骤获取插入数据后的主键值：
 
-1.  在执行 executeUpdate() 方法时指定一个标志位，表示需要返回插入的主键值。
-2.  调用 Statement 对象的 getGeneratedKeys() 方法，返回一个包含插入的主键值的 ResultSet 对象。 
+1.  在执行 executeUpdate() 方法时指定一个**标志位**（**Statement.RETURN_GENERATED_KEYS**），表示需要返回插入的主键值。
+2.  调用 Statement 对象的 getGeneratedKeys() 方法，返回一个**包含插入的主键值的 ResultSet 对象（只插入一条记录，所以只有一行一列）**。 
 
 ```java
 import java.sql.DriverManager;
