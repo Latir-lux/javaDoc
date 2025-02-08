@@ -1,6 +1,9 @@
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=O8j9i&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 # SQL注入问题
-SQL注入问题说的是：用户输入的信息中含有SQL语句关键字，和程序中的SQL语句进行字符串拼接，导致程序中的SQL语句改变了原意。（SQL注入问题是一种系统安全问题）
+SQL注入问题说的是：用户**输入的信息中含有SQL语句关键字**，和程序中的SQL语句进行字符串**拼接**，导致程序中的SQL语句**改变了原意**。（SQL注入问题是一种**系统安全问题**）
+
+**导致SQL注入问题的最根本原因是先进行字符串拼接，再进行SQL语句的编译**。
+
 接下来我们来演示一下SQL注入问题。以用户登录为例。使用表：t_user
 业务描述：系统启动后，给出登录页面，用户可以输入用户名和密码，用户名和密码全部正确，则登录成功，反之，则登录失败。
 分析一下要执行怎样的SQL语句？是不是这样的？
@@ -113,13 +116,13 @@ select realname from t_user where name = 'aaa' and password = 'bbb' or '1'='1';
 # 解决SQL注入问题
 导致SQL注入的根本原因是什么？只有找到真正的原因，问题才能得到解决。
 
-最根本的原因是：Statement造成的。
+最根本的原因是：**Statement造成的**。
 
 Statement执行原理是：先进行字符串的拼接，将拼接好的SQL语句发送给数据库服务器，数据库服务器进行SQL语句的编译，然后执行。因此用户提供的信息中如果含有SQL语句的关键字，那么这些关键字正好参加了SQL语句的编译，所以导致原SQL语句被扭曲。
 
-因此，JDBC为了解决这个问题，引入了一个新的接口：PreparedStatement，我们称为：预编译的数据库操作对象。PreparedStatement是Statement接口的子接口。它俩是继承关系。
+因此，JDBC为了解决这个问题，引入了一个新的接口：**PreparedStatement**，我们称为：**预编译的数据库操作对象**。PreparedStatement是Statement接口的子接口。它俩是**继承关系**。
 
-PreparedStatement执行原理是：先对SQL语句进行预先的编译，然后再向SQL语句指定的位置传值，也就是说：用户提供的信息中即使含有SQL语句的关键字，那么这个信息也只会被当做一个值传递给SQL语句，用户提供的信息不再参与SQL语句的编译了，这样就解决了SQL注入问题。
+PreparedStatement执行原理是：先对SQL语句**进行预先的编译**，然后再向SQL语句**指定的位置传值**，也就是说：用户提供的信息中即使含有SQL语句的关键字，那么这个信息也只会被当做一个值传递给SQL语句，**用户提供的信息不再参与SQL语句的编译了**，这样就解决了SQL注入问题。
 
 使用PreparedStatement解决SQL注入问题：
 ```java
@@ -214,8 +217,8 @@ public class JDBCTest03 {
 
 **关于使用PreparedStatement要注意的是：**
 
-- 带有占位符 ? 的SQL语句我们称为：预处理SQL语句。
-- 占位符 ? 不能使用单引号或双引号包裹。如果包裹，占位符则不再是占位符，是一个普通的问号字符。
+- 带有**占位符 ?** 的SQL语句我们称为：预处理SQL语句。
+- 占位符 ? **不能使用单引号或双引号包裹**。如果包裹，占位符则不再是占位符，是一个普通的问号字符。
 - 在执行SQL语句前，必须给每一个占位符 ? 传值。
 - 如何给占位符 ? 传值，通过以下的方法：
    - pstmt.setXxx(第几个占位符, 传什么值)
@@ -228,8 +231,8 @@ public class JDBCTest03 {
 **PreparedStatement和Statement都是用于执行SQL语句的接口，它们的主要区别在于：**
 
 - PreparedStatement预编译SQL语句，Statement直接提交SQL语句；
-- PreparedStatement执行速度更快，可以避免SQL注入攻击；(PreparedStatement对于同一条SQL语句来说，编译一次，执行N次。而Statement是每次都要进行编译的。因此PreparedStatement效率略微高一些。)
-- PreparedStatement会做类型检查，是类型安全的；
+- PreparedStatement执行速度更快，可以避免SQL注入攻击；(**PreparedStatement对于同一条SQL语句来说，编译一次，执行N次。而Statement是每次都要进行编译的。因此PreparedStatement效率略微高一些。**)
+- PreparedStatement会做**类型检查**，是类型安全的（比如setString只会传入字符串）；
 
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=ix3qZ&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 # PreparedStatement的使用
