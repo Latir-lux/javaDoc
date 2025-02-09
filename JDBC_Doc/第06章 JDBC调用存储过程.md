@@ -43,7 +43,7 @@ public class JDBCTest21 {
             cs = conn.prepareCall(sql);
             // 给第1个 ? 传值
             cs.setInt(1, 100);
-            // 将第2个 ? 注册为出参
+            // 将第2个 ? 注册为出参，并且类型为INTEGER
             cs.registerOutParameter(2, Types.INTEGER);
             // 执行存储过程
             cs.execute();
@@ -85,11 +85,11 @@ Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb"
 
 3. 创建CallableStatement对象
 
-使用以下代码创建CallableStatement对象：
+使用以下代码创建CallableStatement对象，调用存储过程的String外有**{}**：
 ```
 CallableStatement cstmt = conn.prepareCall("{call mypro(?, ?)}");
 ```
-其中，第一个参数为调用存储过程的语句，按照实际情况修改；第二个参数是需要设定的参数。
+其中，第一个参数为调用存储过程的语句，按照实际情况修改；第二个参数是需要设定的参数。CallableStatement**继承**了PreparedStatement，PreparedStatement继承了Statement。预编译用**prepareCall**。
 
 4. 设置输入参数
 
@@ -101,7 +101,7 @@ cstmt.setInt(1, n);
 
 5. 注册输出参数
 
-使用以下代码注册输出参数：
+使用以下代码**注册输出参数**（用**registerOutParameter**），用Types（java.sql的子包）确定参数类型：
 ```
 cstmt.registerOutParameter(2, Types.INTEGER);
 ```

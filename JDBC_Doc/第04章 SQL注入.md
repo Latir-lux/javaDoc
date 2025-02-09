@@ -610,6 +610,9 @@ public class JDBCTest08 {
 
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=hAryG&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 ## blob数据的插入和读取
+
+blob是binary large object，也就是二进制大对象，通常图片、音频等都是这个格式
+
 准备一张表：t_img，三个字段，一个id主键，一个图片名字name，一个img。
 建表语句如下：
 
@@ -625,7 +628,7 @@ create table `t_img` (
 准备一张图片：
 ![dog.jpg](https://cdn.nlark.com/yuque/0/2024/jpeg/21376908/1708242724736-094b007d-d418-4c4d-9a21-b12f20176daf.jpeg#averageHue=%23b0b4b2&clientId=u907c0c1a-424e-4&from=paste&height=200&id=u4371d107&originHeight=200&originWidth=200&originalType=binary&ratio=1&rotation=0&showTitle=false&size=9603&status=done&style=shadow&taskId=u4fc1ce36-27c9-4401-8282-e7cb4e89bd9&title=&width=200)
 
-需求1：向t_img 表中插入一张图片。
+需求1：向t_img 表中插入一张图片。MySQL中的blob输入可以用java中的**输入流**
 ```java
 package com.powernode.jdbc;
 
@@ -695,7 +698,7 @@ public class JDBCTest09 {
 执行结果如下：
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/21376908/1708243266510-6d057b29-ab51-49d2-839b-322dae79a50e.png#averageHue=%23dde3b0&clientId=u907c0c1a-424e-4&from=paste&height=58&id=u1d8aaf1a&originHeight=58&originWidth=304&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1815&status=done&style=shadow&taskId=u1af58cb1-140b-4fcf-8434-0a7c1aeba9a&title=&width=304)
 
-需求2：从t_img 表中读取一张图片。（从数据库中读取一张图片保存到本地。）
+需求2：从t_img 表中读取一张图片。（从数据库中读取一张图片保存到本地。）**文件读出给java的输入流，然后用输出流输出到硬盘**。
 ```java
 package com.powernode.jdbc;
 
@@ -854,8 +857,9 @@ public class NoBatchTest {
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=PoOE1&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 ## 使用批处理
 使用批处理，向 t_product 表中插入一万条商品信息，并记录耗时！
-**注意：启用批处理需要在URL后面添加这个的参数：rewriteBatchedStatements=true**
+**注意：启用批处理需要在URL后面添加这个的参数：<u>rewriteBatchedStatements=true</u>**
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/21376908/1708249622292-576aa82d-5874-4013-a9b4-d94c00cef0ce.png#averageHue=%23fefdfb&clientId=u21834790-ed4d-4&from=paste&height=177&id=u4263b9d7&originHeight=177&originWidth=1592&originalType=binary&ratio=1&rotation=0&showTitle=false&size=24176&status=done&style=shadow&taskId=u444819ae-8458-45a1-b734-bb75ab7faf4&title=&width=1592)
+
 ```java
 package com.powernode.jdbc;
 
@@ -922,8 +926,8 @@ public class BatchTest {
 
 在进行大数据量插入时，批处理为什么可以提高程序的执行效率？
 
-1.  减少了网络通信次数：JDBC 批处理会将多个 SQL 语句一次性发送给服务器，减少了客户端和服务器之间的通信次数，从而提高了数据写入的速度，特别是对于远程服务器而言，优化效果更为显著。 
-2.  减少了数据库操作次数：JDBC 批处理会将多个 SQL 语句合并成一条 SQL 语句进行执行，从而减少了数据库操作的次数，减轻了数据库的负担，大大提高了数据写入的速度。  
+1.  减少了网络通信次数：JDBC 批处理会将多个 SQL 语句一次性发送给服务器，**减少了客户端和服务器之间的通信次数**，从而提高了数据写入的速度，特别是对于远程服务器而言，优化效果更为显著。 
+2.  减少了数据库操作次数：JDBC 批处理会**将多个 SQL 语句合并成一条 SQL 语句进行执行**，从而减少了数据库操作的次数，减轻了数据库的负担，大大提高了数据写入的速度。  
 
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=g9Pw5&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 # DbUtils工具类的封装

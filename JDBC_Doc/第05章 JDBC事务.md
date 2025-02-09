@@ -72,7 +72,7 @@ public class JDBCTest19 {
 
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=fHdee&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 ## JDBC事务默认是自动提交的
-JDBC事务默认情况下是自动提交的，所谓的自动提交是指：只要执行一条DML语句则自动提交一次。测试一下，在以下代码位置添加断点：
+JDBC事务默认情况下是**自动提交**的，所谓的自动提交是指：只要**执行一条DML语句则自动提交一次**。测试一下，在以下代码位置添加断点：
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/21376908/1712912172123-b229ef63-3755-4993-84f4-2e303874c710.png#averageHue=%23312f2d&clientId=u97001951-01ca-4&from=paste&height=373&id=u573a3f7b&originHeight=373&originWidth=957&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59857&status=done&style=none&taskId=u17724b8f-dfd5-4e9f-a6f8-0a386f0d45b&title=&width=957)
 让代码执行到断点处：
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/21376908/1712912197579-f0e09df6-2183-4ace-addf-a2c7d3d9c5f7.png#averageHue=%23302f2d&clientId=u97001951-01ca-4&from=paste&height=290&id=u02cfda53&originHeight=290&originWidth=966&originalType=binary&ratio=1&rotation=0&showTitle=false&size=57805&status=done&style=none&taskId=u9df5ba14-964d-42cd-b50c-811a21a75d6&title=&width=966)
@@ -90,15 +90,16 @@ JDBC事务默认情况下是自动提交的，所谓的自动提交是指：只�
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=pDSoJ&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 ## 添加事务控制
 如何解决以上问题，分三步：
-第一步：将JDBC事务的自动提交机制修改为手动提交（即开启事务）
+第一步：将JDBC事务的自动提交机制修改为手动提交（即**认为在这条语句之后手动开启事务**）
+
 ```java
 conn.setAutoCommit(false);
 ```
-第二步：当整个业务完整结束后，手动提交事务（即提交事务，事务结束）
+第二步：当整个业务完整结束后，**手动提交**事务（即提交事务，事务结束）
 ```java
 conn.commit();
 ```
-第三步：在处理业务过程中，如果发生异常，则进入catch语句块进行异常处理，手动回滚事务（即回滚事务，事务结束）
+第三步：在处理业务过程中，如果发生**异常**，则进入**catch语句块**进行异常处理，手动回滚事务（即回滚事务，事务结束）
 ```java
 conn.rollback();
 ```
@@ -187,4 +188,6 @@ public class JDBCTest20 {
     }
 }
 ```
+Connection.TRANSACTION_SERIALIZABLE用于表示隔离级别序列化，其他四种为TRANSACTION_NONE（无隔离级别）、TRANSACTION_READ_COMMITTED（读提交）、TRANSACTION_READ_UNCOMMITTED（读未提交）、TRANSACTION_REPEATABLE_READ（可重复读）
+
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=mPMWn&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
