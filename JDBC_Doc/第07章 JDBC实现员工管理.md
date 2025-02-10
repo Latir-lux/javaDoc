@@ -27,6 +27,9 @@ select * from t_employee;
 
 ![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=Tit1x&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
 # 实现效果
+
+详细代码查看**JDBCTest22**
+
 ## 查看员工列表
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/21376908/1713087932128-c20f65b8-19f2-435d-b926-4fcf9e76942b.png#averageHue=%23222326&clientId=u51a6216a-4bdd-4&from=paste&height=465&id=ubd9d0e1b&originHeight=465&originWidth=633&originalType=binary&ratio=1&rotation=0&showTitle=false&size=15839&status=done&style=none&taskId=u5b9c816e-73d5-4892-8517-e1e5c7d7e4d&title=&width=633)
 
